@@ -7,7 +7,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
+	"strings"
 )
 
 type PageData struct {
@@ -81,13 +83,13 @@ func GetArtistsData() error {
 
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by reading")
 	}
 	json.Unmarshal(bytes, &Artists)
 	return nil
@@ -96,13 +98,13 @@ func GetArtistsData() error {
 func GetLocations() error {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by reading")
 	}
 	json.Unmarshal(bytes, &LocationsData)
 	return nil
@@ -111,13 +113,13 @@ func GetLocations() error {
 func GetDates() error {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by reading")
 	}
 	json.Unmarshal(bytes, &ConcertDatesData)
 	return nil
@@ -126,13 +128,13 @@ func GetDates() error {
 func GetRelations() error {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by reading")
 	}
 	json.Unmarshal(bytes, &RelationsData)
 	return nil
@@ -158,10 +160,16 @@ func GetData() {
 
 		ArtistData = append(ArtistData, template)
 	}
-	return
+
 }
 
 func MainHandler(w http.ResponseWriter, r *http.Request) {
+	search := r.FormValue("search")
+
+	if search != "" && len(ArtistData) != 0 {
+		ArtistData = Search(search)
+	}
+
 	template, _ := template.ParseFiles("./templates/index.html")
 
 	template.Execute(w, ArtistData)
@@ -189,6 +197,44 @@ func artistHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	template.Execute(w, data)
+}
+
+func getDatabyId(id int) ArtistFullData {
+	var data ArtistFullData
+
+	for i := range Artists {
+		if i == id {
+			data.ID = Artists[i].ID
+			data.Image = Artists[i].Image
+			data.Name = Artists[i].Name
+			data.Members = Artists[i].Members
+			data.CreationDate = Artists[i].CreationDate
+			data.FirstAlbum = Artists[i].FirstAlbum
+			data.Locations = LocationsData.Index[i].Locations
+			data.ConcertDates = ConcertDatesData.Index[i].Dates
+			data.Relations = RelationsData.Index[i].DatesLocation
+			break
+		}
+	}
+	return data
+}
+
+func Search(search string) []ArtistFullData {
+	if search == "" {
+		return ArtistData
+	}
+	var resultSearch []ArtistFullData
+	search = strings.ToLower(search)
+	reg := regexp.MustCompile(`^` + search)
+	for i := range Artists {
+		temp := strings.ToLower(Artists[i].Name)
+		if reg.Match([]byte(temp)) {
+			// fmt.Println("search id = ", i)
+			resultSearch = append(resultSearch, getDatabyId(i))
+		}
+	}
+
+	return resultSearch
 }
 func main() {
 	GetData()

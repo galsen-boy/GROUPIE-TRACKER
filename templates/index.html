@@ -9,6 +9,17 @@
 <body>
     <header class="header">
         <div class="logo">Groupie &nbsp;Tracker</div>
+        <div class="searchbarre">
+            <form action="/groupie-tracker" method="POST">
+                <input class="browsers" name="search" id="browser" placeholder="Rechercher">
+              <datalist id="browsers">
+                    {{range .}}
+                    <option value="{{.Name}}">
+                        {{end}}
+                </datalist>
+                <button type="submit" hidden="true"></button>
+            </form>
+        </div>
     </header>
     <div class="main-section">
         <h1 class="text-artists">Artists In Our Groupie Tracker Website</h1>
