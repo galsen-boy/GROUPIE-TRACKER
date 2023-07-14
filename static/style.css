@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Roboto:ital,wght@0,300;0,400;0,500;1,100;1,300;1,400&display=swap');
 
 :root {
-    --background-color: #e7d362;
+    background-color: #e7d362;
     background: rgb(44, 63, 99);
     background: linear-gradient(180deg, rgba(44, 63, 99, 1) 0%, rgba(92, 130, 177, 1) 14%, rgba(0, 212, 255, 1) 100%);
     --secondary-color: rgba(1, 235, 243, 0.164);
@@ -25,8 +25,11 @@ span {
 }
 
 body {
-    background-color: var(--background-color);
-    overflow: scroll;
+    background: repeating-radial-gradient(gray, white,gray);
+    outline: none;
+    text-align: center;
+    align-content: center;
+
 }
 
 .header {
@@ -97,7 +100,7 @@ body {
 
 .image-groupe {
     margin: 10px 10px;
-    width: 300px;
+    width: 200px;
     height: 80%;
     border-radius: 30px;
 }
