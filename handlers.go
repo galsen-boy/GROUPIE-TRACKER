@@ -79,8 +79,8 @@ var ConcertDatesData ConcertDateData
 var RelationsData RelationData
 
 func GetArtistsData() error {
-
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+
 	if err != nil {
 		return errors.New("error by get")
 	}
@@ -156,14 +156,17 @@ func GetData() {
 		template.Locations = LocationsData.Index[i].Locations
 		template.ConcertDates = ConcertDatesData.Index[i].Dates
 		template.Relations = RelationsData.Index[i].DatesLocation
-
 		ArtistData = append(ArtistData, template)
 	}
 
 }
 
-func MainHandler(w http.ResponseWriter, r *http.Request) {
-	search := r.FormValue("search")
+func MainHandler(res http.ResponseWriter, req *http.Request) {
+	search := req.FormValue("search")
+	// if req.URL.Path != "/" || req.Method != "GET" {
+	// 	error404(res)
+	// 	return
+	// }
 
 	if search != "" && len(ArtistData) != 0 {
 		ArtistData = Search(search)
@@ -171,12 +174,16 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 
 	template, _ := template.ParseFiles("./templates/index.html")
 
-	template.Execute(w, ArtistData)
+	template.Execute(res, ArtistData)
 }
-func artistHandler(w http.ResponseWriter, r *http.Request) {
+func artistHandler(res http.ResponseWriter, req *http.Request) {
+	// if req.URL.Path != "/" || req.Method != "GET" {
+	// 	error404(res)
+	// 	return
+	// }
 	template, _ := template.ParseFiles("./templates/ArtistPage.html")
 
-	queryParams := r.URL.Query() // Obtient les paramètres de la requête dans un map
+	queryParams := req.URL.Query() // Obtient les paramètres de la requête dans un map
 
 	id := queryParams.Get("id")
 	data := PageData{}
@@ -195,7 +202,7 @@ func artistHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	template.Execute(w, data)
+	template.Execute(res, data)
 }
 
 func getDatabyId(id int) ArtistFullData {

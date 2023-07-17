@@ -17,29 +17,51 @@
 
         </div>
     </div>
-
-    <div class="container">
-        <p class="Title">{{.Name}}</p>
-        <img src="{{.Image}}">
-        <p>Members :{{range .Members}} {{.}}, {{end}}</p>
-        <p>Création : {{.CreationDate}}</p>
-        <p>1er album : {{.FirstAlbum}}</p>
-        <div id="artists" class="row">
-            <div class="col" id="{{.ID}}" name="{{.ID}}">
-                {{ range $key, $value := .Relations }}
-                <p>{{$key}}: {{range $value}} {{.}}. {{end}}</p>
-                {{ end }}
+    <div class="parent">
+        <div class="container">
+            <div class="box img">
+                <img src="{{.Image}}">
             </div>
-            <div>
-                <p>Locations :{{range .Locations}} {{.}}, {{end}}</p>
+            <div class="box member">
+                <ul>
+                    <h4>MEMBERS :</h4>
+                    {{range $member := .Members}}
+                    <li>{{$member}}</li>
+                    {{ end }}
+                </ul>
             </div>
-            <div>
-                <p>ConcertDates :{{range .ConcertDates}} {{.}}, {{end}}</p>
+            <div class="box location">
+                <ul>
+                    <h4>LOCATIONS :</h4>
+                    {{range $loc := .Locations}}
+                    <li>{{$loc}}</li>
+                    {{ end }}
+                </ul>
+            </div>                                                                                        
+            <div class="box concert">
+                <ul>
+                    <h4>ConcertDates : </h4>
+                    {{range $conc := .ConcertDates}}
+                    <li>{{$conc}}</li>
+                    {{ end }}
+                </ul>
             </div>
+            <div class="box other">
+                <ul>
+                    <h4>RELATION : </h4>
+                    {{ range $key, $value := .Relations }}
+                    <li>{{$key}}: {{range $value}} {{.}}. {{end}}</li>
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="calbum">
+            <p>Création : {{.CreationDate}}</p>&nbsp<p>1er album : {{.FirstAlbum}}</p>
         </div>
     </div>
     <div id="map" style="width: auto; height: 300px;"></div> 
-   {{.src}}
+   <!-- {{.src}} -->
  
     </body>
 </html>
