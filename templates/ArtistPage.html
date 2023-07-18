@@ -11,20 +11,23 @@
         <div class="nav2">
             <a style="text-decoration:none" href="groupie-tracker">
                 <div class="title">
-                    <a href="/groupie-tracker"><h1>Artist</h1></a>
+                    <a href="/"><h1>Artist</h1></a>
                 </div>
             </a>
-
         </div>
     </div>
     <div class="parent">
         <div class="container">
             <div class="box img">
                 <img src="{{.Image}}">
+                <div class="calbum">
+                    <br>
+                    <p>Création : {{.CreationDate}}</p>&nbsp<p>1er album : {{.FirstAlbum}}</p>
+                </div>
             </div>
             <div class="box member">
                 <ul>
-                    <h4>MEMBERS :</h4>
+                    <h4>MEMBERS </h4>
                     {{range $member := .Members}}
                     <li>{{$member}}</li>
                     {{ end }}
@@ -32,7 +35,7 @@
             </div>
             <div class="box location">
                 <ul>
-                    <h4>LOCATIONS :</h4>
+                    <h4>LOCATIONS </h4>
                     {{range $loc := .Locations}}
                     <li>{{$loc}}</li>
                     {{ end }}
@@ -40,7 +43,7 @@
             </div>                                                                                        
             <div class="box concert">
                 <ul>
-                    <h4>ConcertDates : </h4>
+                    <h4>ConcertDates </h4>
                     {{range $conc := .ConcertDates}}
                     <li>{{$conc}}</li>
                     {{ end }}
@@ -48,20 +51,15 @@
             </div>
             <div class="box other">
                 <ul>
-                    <h4>RELATION : </h4>
+                    <h4>RELATIONS : </h4>
                     {{ range $key, $value := .Relations }}
-                    <li>{{$key}}: {{range $value}} {{.}}. {{end}}</li>
+                    <li class="li">{{$key}}: {{range $value}} <br> {{.}}. {{end}}</li>
                     {{ end }}
                 </ul>
             </div>
         </div>
         <br>
-        <div class="calbum">
-            <p>Création : {{.CreationDate}}</p>&nbsp<p>1er album : {{.FirstAlbum}}</p>
-        </div>
+
     </div>
-    <div id="map" style="width: auto; height: 300px;"></div> 
-   <!-- {{.src}} -->
- 
     </body>
 </html>

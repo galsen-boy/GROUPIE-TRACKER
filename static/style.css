@@ -1,16 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Roboto:ital,wght@0,300;0,400;0,500;1,100;1,300;1,400&display=swap');
-
-:root {
-    background-color: #e7d362;
-    background: rgb(44, 63, 99);
-    background: linear-gradient(180deg, rgba(44, 63, 99, 1) 0%, rgba(92, 130, 177, 1) 14%, rgba(0, 212, 255, 1) 100%);
-    --secondary-color: rgba(1, 235, 243, 0.164);
-}
-  
 span {
     color: var(--secondary-color);
     font-size: 60px;
-    padding: -5px;
+    /* padding: -5px; */
 }  
 
 * {
@@ -25,50 +16,50 @@ span {
 }
 
 body {
-    background-image: url('https://cdn.pixabay.com/photo/2023/02/07/13/55/forest-7774205_960_720.jpg');
-    background-color: rgba(0, 0, 0, 0.8);
+    background-image: url('https://cdn.pixabay.com/photo/2010/12/13/10/01/guitar-2119_960_720.jpg');
+    /* background-color: rgba(0, 0, 0, 0.8); */
     background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
+    /* background-position: center; */
 
 }
-
 .header {
-
-    padding: 50px;
-    padding-bottom: 10px;
-    display: flex;
-    color: #ffffffde;
+    margin-top: auto;
+    background-color: darkgoldenrod;
+    position: fixed;
+    width: 100%;
     justify-content: space-between;
+
 }
 
 .logo {
-    font-size: 4rem;
+    font-size: 3rem;
     color: black;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
-.searchbarre {
-    width: 10%;
-    height: 10%;
-    border-radius: 30px;
-    padding: 10px;
-    background-color: var(--secondary-color);
-}
-
-
 
 .name {
-
     width: 100%;
     height: 10%;
     text-align: center;
-    font-size: 15px;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: rgb(17, 12, 12);
     margin: auto;
     border-radius: 10px;
 }
+.main-section {
+    font-size: 1.3rem;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
 .artist-image {
+    padding-top: 2%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,44 +67,35 @@ body {
 }
 
 .image {
+    /* background-color: blue; */
+    border-radius: 12%;
     flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 20px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
-.main-section {
-
-    color: white;
-    font-size: 1.3rem;
-    height: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
 
 .text-artists {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 300%;
     color: black;
 }
 
 .image-groupe {
-    margin: 10px 10px;
-    width: 200px;
-    height: 80%;
+    margin: 20px 20px 10px 20px ;
+    width: 300px;
+    /* height: 80%; */
     border-radius: 30px;
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.523);
+    background-color: black;
 }
 .image-groupe:hover{
     transform:scale(1.1);
     transition: 500ms
-        
-}
-.container li {
-    margin-bottom: 10px;
-    color: white;
+
 }
 
 .container h2, .container h3 {
@@ -125,27 +107,6 @@ body {
     font-size: 30px;
     color: white;
     margin-bottom: 30px;
-}
-
-.groupe-details {
-    position: relative;
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(44, 37, 37, 0.6);
-    width: 60vw;
-    height: 50vh;
-}
-
-.members {
-    height: 100%;
-    width: 50%;
-    margin-left: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .img-artist {
@@ -177,26 +138,32 @@ body {
     margin-left: 5%;
     margin-top: 10%;
     border-radius: 2%;
+    overflow: hidden;
 }
 .box{
-    display: flex;
+    
     justify-content: center;
-    margin: 17px;
+    margin: 50px;
+    overflow: hidden;
+    font-size: 19px;
 }
 .calbum{
     text-align: center;
 }
 .box img{
     /* margin-bottom: 10%; */
-    border-radius:5px;
+    border-radius:10px;
+    max-height: 100%;
+    box-shadow: 1px 5px;
+
 }
-.title{
+/* .title{
     text-align: center;
-}
+} */
 .parent{
     margin-left: 5%;
     margin-right: 5%;
-    background-color: rgba(27, 24, 24, 0.2);
+    background-color: rgba(242, 231, 22, 0.2);
     align-content: center;
-    
+    border-radius: 14px;
 }

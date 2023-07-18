@@ -7,29 +7,20 @@
     <title>Groupie Tracker</title>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">Groupie &nbsp;Tracker</div>
-        <div class="searchbarre">
-            <form action="/groupie-tracker" method="POST">
-                <input class="browsers" name="search" id="browser" placeholder="Rechercher">
-                <datalist id="browsers">
-                    {{range .}}
-                     <option value="{{.Name}}">
-                    {{end}}
-                </datalist>
-                <button type="submit" hidden="true"></button>
-            </form>
+    <div class="head">
+        <header class="header">
+            <div class="logo">Groupie &nbsp;Tracker</div>
+        </header>
+        <div class="main-section">
+            <h1 class="text-artists">Artists In Our Groupie Tracker Website</h1>
         </div>
-    </header>
-    <div class="main-section">
-        <h1 class="text-artists">Artists In Our Groupie Tracker Website</h1>
-    </div>
+   </div>
     <div class="artist-image">
         {{range .}}
         <div class="image" >
             <a href="/artist?id={{.ID}}">
                 <img src="{{.Image}}"class="image-groupe">
-                <p class="name" href="">{{ .Name }}</p>
+                <p class="name" href=""><br>{{ .Name }}</p>
             </a>
         </div>
         {{end}}

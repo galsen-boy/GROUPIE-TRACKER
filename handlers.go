@@ -1,14 +1,9 @@
 package main
 
 import (
-	"encoding/json"
-	"errors"
 	"html/template"
-	"io/ioutil"
 	"net/http"
-	"regexp"
 	"strconv"
-	"strings"
 )
 
 type PageData struct {
@@ -78,67 +73,6 @@ var LocationsData LocationData
 var ConcertDatesData ConcertDateData
 var RelationsData RelationData
 
-func GetArtistsData() error {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
-
-	if err != nil {
-		return errors.New("error by get")
-	}
-	defer resp.Body.Close()
-
-	bytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return errors.New("error by reading")
-	}
-	json.Unmarshal(bytes, &Artists)
-	return nil
-}
-
-func GetLocations() error {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
-	if err != nil {
-		return errors.New("error by get")
-	}
-	defer resp.Body.Close()
-
-	bytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return errors.New("error by reading")
-	}
-	json.Unmarshal(bytes, &LocationsData)
-	return nil
-}
-
-func GetDates() error {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
-	if err != nil {
-		return errors.New("error by get")
-	}
-	defer resp.Body.Close()
-
-	bytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return errors.New("error by reading")
-	}
-	json.Unmarshal(bytes, &ConcertDatesData)
-	return nil
-}
-
-func GetRelations() error {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
-	if err != nil {
-		return errors.New("error by get")
-	}
-	defer resp.Body.Close()
-
-	bytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return errors.New("error by reading")
-	}
-	json.Unmarshal(bytes, &RelationsData)
-	return nil
-}
-
 func GetData() {
 	GetArtistsData()
 	GetLocations()
@@ -160,32 +94,33 @@ func GetData() {
 	}
 
 }
-
 func MainHandler(res http.ResponseWriter, req *http.Request) {
-	search := req.FormValue("search")
-	// if req.URL.Path != "/" || req.Method != "GET" {
-	// 	error404(res)
-	// 	return
-	// }
-
-	if search != "" && len(ArtistData) != 0 {
-		ArtistData = Search(search)
+	if req.URL.Path != "/" || req.Method != "GET" {
+		error404(res)
+		return
 	}
 
-	template, _ := template.ParseFiles("./templates/index.html")
+	template, err := template.ParseFiles("./templates/index.html")
+	if err != nil {
+		error404(res)
+		return
+	}
 
 	template.Execute(res, ArtistData)
 }
 func artistHandler(res http.ResponseWriter, req *http.Request) {
-	// if req.URL.Path != "/" || req.Method != "GET" {
-	// 	error404(res)
-	// 	return
-	// }
-	template, _ := template.ParseFiles("./templates/ArtistPage.html")
-
+	template, err := template.ParseFiles("./templates/ArtistPage.html")
+	if err != nil {
+		error404(res)
+		return
+	}
 	queryParams := req.URL.Query() // Obtient les paramètres de la requête dans un map
 
 	id := queryParams.Get("id")
+	if req.URL.Path != "/artist/" || req.Method != "GET" {
+		error404(res)
+		return
+	}
 	data := PageData{}
 
 	for _, v := range ArtistData {
@@ -203,42 +138,4 @@ func artistHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	template.Execute(res, data)
-}
-
-func getDatabyId(id int) ArtistFullData {
-	var data ArtistFullData
-
-	for i := range Artists {
-		if i == id {
-			data.ID = Artists[i].ID
-			data.Image = Artists[i].Image
-			data.Name = Artists[i].Name
-			data.Members = Artists[i].Members
-			data.CreationDate = Artists[i].CreationDate
-			data.FirstAlbum = Artists[i].FirstAlbum
-			data.Locations = LocationsData.Index[i].Locations
-			data.ConcertDates = ConcertDatesData.Index[i].Dates
-			data.Relations = RelationsData.Index[i].DatesLocation
-			break
-		}
-	}
-	return data
-}
-
-func Search(search string) []ArtistFullData {
-	if search == "" {
-		return ArtistData
-	}
-	var resultSearch []ArtistFullData
-	search = strings.ToLower(search)
-	reg := regexp.MustCompile(`^` + search)
-	for i := range Artists {
-		temp := strings.ToLower(Artists[i].Name)
-		if reg.Match([]byte(temp)) {
-			// fmt.Println("search id = ", i)
-			resultSearch = append(resultSearch, getDatabyId(i))
-		}
-	}
-
-	return resultSearch
 }
