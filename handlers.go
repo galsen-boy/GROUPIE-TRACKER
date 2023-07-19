@@ -102,25 +102,24 @@ func MainHandler(res http.ResponseWriter, req *http.Request) {
 
 	template, err := template.ParseFiles("./templates/index.html")
 	if err != nil {
-		error404(res)
+		error500(res)
 		return
 	}
-
+	res.WriteHeader(200)
 	template.Execute(res, ArtistData)
 }
-func artistHandler(res http.ResponseWriter, req *http.Request) {
-	template, err := template.ParseFiles("./templates/ArtistPage.html")
-	if err != nil {
-		error404(res)
-		return
-	}
-	queryParams := req.URL.Query() // Obtient les paramètres de la requête dans un map
-
-	id := queryParams.Get("id")
+func ArtistHandler(res http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/artist/" || req.Method != "GET" {
 		error404(res)
 		return
 	}
+	template, err := template.ParseFiles("./templates/ArtistPage.html")
+	if err != nil {
+		error500(res)
+		return
+	}
+	queryParams := req.URL.Query() // Obtient les paramètres de la requête dans un map
+	id := queryParams.Get("id")
 	data := PageData{}
 
 	for _, v := range ArtistData {
@@ -136,6 +135,6 @@ func artistHandler(res http.ResponseWriter, req *http.Request) {
 			data.Relations = v.Relations
 		}
 	}
-
+	res.WriteHeader(200)
 	template.Execute(res, data)
 }

@@ -8,7 +8,7 @@ import (
 
 // Handles 400 bad request
 func error400(w http.ResponseWriter) {
-	tpl400, err := template.ParseFiles("./templates/400.page.tmpl")
+	tpl400, err := template.ParseFiles("./templates/400.html")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -28,7 +28,7 @@ func error404(w http.ResponseWriter) {
 
 // Handles 500 internal server error
 func error500(w http.ResponseWriter) {
-	tpl500, err := template.ParseFiles("./templates/500.page.tmpl")
+	tpl500, err := template.ParseFiles("./templates/500.html")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -38,7 +38,7 @@ func error500(w http.ResponseWriter) {
 
 // method not allowed
 func error405(w http.ResponseWriter) {
-	tpl405, err := template.ParseFiles("./templates/405.page.tmpl")
+	tpl405, err := template.ParseFiles("./templates/405.html")
 	if err != nil {
 		log.Fatalln(err)
 	}
