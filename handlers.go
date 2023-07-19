@@ -95,11 +95,14 @@ func GetData() {
 
 }
 func MainHandler(res http.ResponseWriter, req *http.Request) {
-	if req.URL.Path != "/" || req.Method != "GET" {
+	if req.URL.Path != "/" {
 		error404(res)
 		return
 	}
-
+	if req.Method != "GET" {
+		error405(res)
+		return
+	}
 	template, err := template.ParseFiles("./templates/index.html")
 	if err != nil {
 		error500(res)
@@ -109,8 +112,12 @@ func MainHandler(res http.ResponseWriter, req *http.Request) {
 	template.Execute(res, ArtistData)
 }
 func ArtistHandler(res http.ResponseWriter, req *http.Request) {
-	if req.URL.Path != "/artist/" || req.Method != "GET" {
-		error404(res)
+	if req.URL.Path != "/artist/" {
+		NotFound(res)
+		return
+	}
+	if req.Method != "GET" {
+		error405(res)
 		return
 	}
 	template, err := template.ParseFiles("./templates/ArtistPage.html")
@@ -121,9 +128,8 @@ func ArtistHandler(res http.ResponseWriter, req *http.Request) {
 	queryParams := req.URL.Query() // Obtient les paramètres de la requête dans un map
 	id := queryParams.Get("id")
 	data := PageData{}
-
+	a, err := strconv.Atoi(id)
 	for _, v := range ArtistData {
-		a, _ := strconv.Atoi(id)
 		if v.ID == a {
 			data.Name = v.Name
 			data.Members = v.Members
@@ -134,6 +140,10 @@ func ArtistHandler(res http.ResponseWriter, req *http.Request) {
 			data.Locations = v.Locations
 			data.Relations = v.Relations
 		}
+	}
+	if err != nil || a < 0 {
+		error400(res)
+		return
 	}
 	res.WriteHeader(200)
 	template.Execute(res, data)

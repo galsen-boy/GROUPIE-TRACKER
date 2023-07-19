@@ -45,3 +45,11 @@ func error405(w http.ResponseWriter) {
 	w.WriteHeader(405)
 	tpl405.Execute(w, nil)
 }
+func NotFound(w http.ResponseWriter) {
+	tpl, err := template.ParseFiles("./templates/notFound.html")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	w.WriteHeader(404)
+	tpl.Execute(w, nil)
+}

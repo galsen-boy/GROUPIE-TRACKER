@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -11,7 +12,7 @@ func GetArtistsData() error {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 
 	if err != nil {
-		return errors.New("error by get")
+		log.Fatal("Error by Get")
 	}
 	defer resp.Body.Close()
 
@@ -26,7 +27,7 @@ func GetArtistsData() error {
 func GetLocations() error {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 	if err != nil {
-		return errors.New("error by get")
+		log.Fatal("Error by Get")
 	}
 	defer resp.Body.Close()
 
@@ -41,7 +42,7 @@ func GetLocations() error {
 func GetDates() error {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
 	if err != nil {
-		return errors.New("error by get")
+		log.Fatal("Error by Get")
 	}
 	defer resp.Body.Close()
 	bytes, err := ioutil.ReadAll(resp.Body)
@@ -55,7 +56,7 @@ func GetDates() error {
 func GetRelations() error {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
 	if err != nil {
-		return errors.New("error by get")
+		log.Fatal("Error by Get")
 	}
 	defer resp.Body.Close()
 

@@ -27,11 +27,11 @@ body{
   }
   a {
     width: 7%;
-    padding: 8px;
+    padding: 10px;
     overflow: hidden;
     /* white-space: nowrap; */
     text-overflow: ellipsis;
-    background-color: gray;
+    background-color: rgb(65, 159, 226);
     color: white;
     cursor: pointer;
     text-decoration: none;
